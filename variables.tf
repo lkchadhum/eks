@@ -1,12 +1,3 @@
-variable "namespaces" {
-  type        = list(string)
-  description = "List of namespaces to be created in our EKS Cluster."
-}
-
-# variable "eks_cluster_role_name" {
-#   type        = string
-#   description = "role name for eks cluster"
-# }
 
 variable "eks_cluster_nodegroup_role_name" {
   type        = string
@@ -100,4 +91,23 @@ variable "eks_cluster_role_name" {
 }
 variable "eks_nodegroup_role_name" {
   type        = string
+}
+
+// namespace
+
+variable "namespace_name" {
+  type        = string
+  description = "namespaces to be created in our EKS Cluster."
+}
+
+// pods
+
+variable "nginx_pod_name" {
+  type        = string
+  description = "pod name"
+}
+
+variable "nginx_pod_image" {
+  type        = string
+  description = "pod name"
 }
