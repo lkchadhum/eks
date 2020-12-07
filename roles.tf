@@ -1,7 +1,5 @@
-
-
-resource "aws_iam_role" "cluster" {
-  name = "${var.clusterrole_name}"
+resource "aws_iam_role" "eks_cluster" {
+  name = var.eks_cluster_role_name
 
   assume_role_policy = <<POLICY
 {
@@ -19,18 +17,23 @@ resource "aws_iam_role" "cluster" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.cluster.name
+  role       = aws_iam_role.eks_cluster.name
 }
 
-resource "aws_iam_role_policy_attachment" "cluster-AmazonEKSServicePolicy" {
+# ## enable Security Groups for Pods
+
+resource "aws_iam_role_policy_attachment" "AmazonEKSServicePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-  role       = aws_iam_role.cluster.name
+  role       = aws_iam_role.eks_cluster.name
 }
-# NODES
-resource "aws_iam_role" "node" {
-  name = "${var.nodegroup_role_name}"
+
+
+######## role for eks node groups
+
+resource "aws_iam_role" "eks_nodegroup_role" {
+  name = var.eks_nodegroup_role_name
 
   assume_role_policy = <<POLICY
 {
@@ -48,23 +51,22 @@ resource "aws_iam_role" "node" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "node-AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.node.name
+  role       = aws_iam_role.eks_nodegroup_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "node-AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.node.name
+  role       = aws_iam_role.eks_nodegroup_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "node-AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.node.name
+  role       = aws_iam_role.eks_nodegroup_role.name
 }
 
-resource "aws_iam_instance_profile" "node" {
-  name = "${var.cluster-name}-eks-node-instance-profile"
-  role = aws_iam_role.node.name
-}
+
+
+
 
