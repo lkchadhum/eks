@@ -111,3 +111,32 @@ variable "nginx_pod_image" {
   type        = string
   description = "pod name"
 }
+
+//kms
+
+variable "cluster_encryption_config_kms_key_enable_key_rotation" {
+  type        = bool
+  default     = true
+  description = "Specifies whether key rotation is enabled."
+}
+variable "cluster_encryption_config_kms_key_deletion_window_in_days" {
+  type        = string
+}
+variable "kms_tags" {
+  type        = map(string)
+  default     = {}
+}
+
+# variable "eks_kms_name" {
+#   type        = string
+# }
+
+// logs
+
+variable "eks_cloudwatch_name" {
+  type        = string
+}
+
+variable "cluster_log_retention_period" {
+  type        = string
+}
