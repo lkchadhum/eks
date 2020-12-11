@@ -7,7 +7,7 @@
 #     namespace = "kube-system"
 #     labels = merge(
 #       {
-#         "app.kubernetes.io/managed-by" = "Terraform"
+#         "app.kubernetes.io/managed-by" = ""
 #       },
 #       var.aws_auth_additional_labels
 #     )
@@ -23,4 +23,24 @@
 #     mapUsers    = yamlencode(var.map_users)
 #     mapAccounts = yamlencode(var.map_accounts)
 #   }
+# }
+
+
+
+# provider "kubernetes" {
+#   config_path      = local_file.kubeconfig.filename
+#   load_config_file = true
+# }
+
+# resource "local_file" "kubeconfig" {
+#   content  = var.kubeconfig
+#   filename = "${path.module}/kubeconfig"
+# }
+
+# provider "kubernetes" {
+#   host = ""
+
+#   client_certificate     = "${file("~/.kube/client-cert.pem")}"
+#   client_key             = "${file("~/.kube/client-key.pem")}"
+#   cluster_ca_certificate = "${file("~/.kube/cluster-ca-cert.pem")}"
 # }
