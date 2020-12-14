@@ -1,7 +1,6 @@
 resource "aws_eks_node_group" "nodegroups" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = var.aws_eks_nodegroup_name
-
   # check the node arn for this 
   node_role_arn   = aws_iam_role.eks_nodegroup_role.arn
   subnet_ids      = var.subnet_ids
